@@ -46,24 +46,20 @@ function saveVersion (index, cb) {
 }
 
 function dumpVersion (index, cb) {
-  const checkout = archive.db.checkout(versions[index])
-  const oldArchive = hyperdrive('unused', {checkout})
+  const version = versions[index]
+  const oldArchive = archive.checkout(version)
   oldArchive.readdir('/', (err, list) => {
     if (err) throw err
     console.log(index + ' old "/":', list)
-    checkout.get('/hello.txt', (err, node) => {
-      console.log(index + ' old db get /hello.txt', node)
-      archive.readFile('/hello.txt', 'utf8',  (err, data) => {
+    oldArchive.db.get('/hello.txt', (err, node) => {
+      console.log(index + ' old db archive.db get /hello.txt', node)
+      oldArchive.readFile('/hello.txt', 'utf8',  (err, data) => {
         if (err) throw err
         console.log(index + ' old /hello.txt', data)
         oldArchive.db.heads((err, heads) => {
           if (err) throw err
           console.log(index + ' heads:', heads)
-          oldArchive.db.list((err, listDb) => {
-            if (err) throw err
-            console.log(index + ' db list:', listDb)
-            cb()
-          })
+          cb()
         })
       })
     })
