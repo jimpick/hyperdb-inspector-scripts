@@ -1,4 +1,4 @@
-const hyperdb = require('hyperdb')
+const hyperdb = require('hyperdrive/node_modules/hyperdb')
 const ram = require('random-access-memory')
 const hyperdiscovery = require('hyperdiscovery')
 

@@ -37,6 +37,27 @@ function dump (title, checkout, cb) {
   checkout.version((err, version) => {
     if (err) throw err
     console.log(title + ' version:', version.toString('hex'))
+    console.log()
+
+    console.log(title + ' writers:')
+    checkout._writers.forEach((writer, index) => {
+      console.log(' ', index, writer._feed.key.toString('hex'), writer._feed.length)
+    })
+    console.log()
+
+    console.log(title + ' content feeds:')
+    if (checkout.contentFeeds) {
+      checkout.contentFeeds.forEach((feed, index) => {
+        if (feed) {
+          console.log(' ', index, feed.key.toString('hex'), feed.length)
+        } else {
+          console.log(' ', index, 'No feed')
+        }
+      })
+    } else {
+      console.log('  No content feeds.')
+    }
+    console.log()
 
     console.log(title + ' list:')
     checkout.list((err, list) => {
