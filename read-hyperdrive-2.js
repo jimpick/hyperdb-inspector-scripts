@@ -5,6 +5,7 @@ const prettyHash = require('pretty-hash')
 const archive = hyperdrive('./db')
 archive.ready(() => {
   // const sw = hyperdiscovery(archive)
+  /*
   const sw = hyperdiscovery(archive, {
     stream: (peer) => {
       const stream = archive.replicate({live: true, download: true})
@@ -23,6 +24,7 @@ archive.ready(() => {
       console.log('Closed')
     })
   })
+  */
   archive.readdir('/', (err, list) => {
     if (err) throw err
     console.log('Dir /', list)

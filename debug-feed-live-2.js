@@ -3,6 +3,7 @@ const ram = require('random-access-memory')
 const hyperdiscovery = require('hyperdiscovery')
 const prettyHash = require('pretty-hash')
 const input = require('diffy/input')()
+const thunky = require('thunky')
 
 const key = process.argv[2]
 if (!key) {
@@ -16,13 +17,16 @@ if (!key2) {
   process.exit(1)
 }
 console.log('Key2', key2)
-const feed = hypercore(ram, key)
-const feed2 = hypercore(ram, key2)
-let replicating2 = false
-feed.on('ready', () => {
-  feed2.on('ready', () => {
+function storage (prefix) {
+  return file => ram(prefix + '/' + file)
+}
+const feed = hypercore(storage('feed1'), key)
+const feed2 = hypercore(storage('feed2'), key2)
+feed.ready(() => {
+  feed2.ready(() => {
     const sw = hyperdiscovery(feed, {
       stream: (peer) => {
+        let replicating2 = false
         const stream = feed.replicate({live: true})
         stream.on('feed', dk => {
           if (dk.equals(feed2.discoveryKey)) {
@@ -34,6 +38,8 @@ feed.on('ready', () => {
             }
           }
         })
+        stream.on('close', () => { console.log('close') })
+        stream.on('error', () => { console.log('error') })
         return stream
       }
     })
@@ -41,29 +47,31 @@ feed.on('ready', () => {
     sw.on('connection', () => { console.log('Connection') })
   })
 })
-feed.on('ready', () => {
+feed.ready(() => {
   console.log('Discovery Key', feed.discoveryKey.toString('hex'))
   console.log('Ready', feed.length)
   feed.on('sync', () => {
     console.log('sync', feed.length)
     onSync(feed, () => {
       console.log('First feed done')
+      load2()
     })
   })
   feed.on('append', () => { console.log('append', feed.length) })
 })
-feed2.on('ready', () => {
-  console.log('Ready', feed2.length)
-  feed2.on('sync', () => {
-    console.log('sync2', feed2.length)
-    setTimeout(() => {
+function load2() {
+  feed2.ready(() => {
+    console.log('Feed 2 Ready', feed2.length)
+    console.log('Requesting second feed')
+    // feed2.on('sync', () => {
+      console.log('Feed 2 length', feed2.length)
       onSync(feed2, () => {
         console.log('Second feed done')
       })
-    }, 2000)
+    // })
+    feed2.on('append', () => { console.log('append2', feed2.length) })
   })
-  feed2.on('append', () => { console.log('append2', feed2.length) })
-})
+}
 
 function onSync (myFeed, cb) {
   printChanges(0, cb)
