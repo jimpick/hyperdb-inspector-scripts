@@ -1,6 +1,8 @@
 require('longjohn')
 
-const hyperdb = require('hyperdb')
+require('events').prototype._maxListeners = 100
+
+const hyperdb = require('hyperdrive/node_modules/hyperdb')
 const hyperdiscovery = require('hyperdiscovery')
 
 const db = hyperdb('./db', {contentFeed: true})

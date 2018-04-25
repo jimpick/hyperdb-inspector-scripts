@@ -59,7 +59,6 @@ archive.ready(() => {
           console.log('Jim1')
           if (err) throw err
           console.log(contents)
-          process.exit(0)
         })
       })
     })
