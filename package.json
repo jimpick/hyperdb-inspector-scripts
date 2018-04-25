@@ -17,6 +17,7 @@
     "longjohn": "^0.2.12",
     "pretty-hash": "^1.0.1",
     "random-access-memory": "^2.4.0",
+    "tape": "^4.9.0",
     "to2": "^1.0.0"
   }
 }
