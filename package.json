@@ -13,7 +13,7 @@
     "diffy": "^2.0.0",
     "from2": "^2.3.0",
     "hyperdiscovery": "^7.0.0",
-    "hyperdrive": "jimpick/hyperdrive#5a74946402a3d6f5be4a1d167d953cffac1e8cac",
+    "hyperdrive": "jimpick/hyperdrive#3891ef5b7c35db2f674b111061e1b2436dfeccff",
     "longjohn": "^0.2.12",
     "pretty-hash": "^1.0.1",
     "random-access-memory": "^2.4.0",

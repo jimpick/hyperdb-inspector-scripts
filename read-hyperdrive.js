@@ -5,15 +5,18 @@ const prettyHash = require('pretty-hash')
 const archive = hyperdrive('./db')
 archive.ready(() => {
   archive.readdir('/', (err, list) => {
-    if (err) throw err
+    if (err) {
+      console.error('Jim1 error', err)
+      process.exit(1)
+    }
     console.log('Dir /', list)
     archive.readdir('/shopping-list', (err, list) => {
       if (err) {
-        console.log('Error', err)
+        console.log('Jim2 error', err)
         console.log(err.stack)
         console.log(err.info)
         dumpWriters(archive)
-        return
+        process.exit(1)
       }
       console.log('Dir /shopping-list', list)
     })
