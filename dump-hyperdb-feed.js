@@ -1,5 +1,5 @@
 const hypercore = require('hypercore')
-const messages = require('hyperdrive/node_modules/hyperdb/lib/messages')
+const messages = require('hyperdb/lib/messages')
 const to2 = require('to2')
 
 const file = process.argv[2]

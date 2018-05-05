@@ -1,7 +1,7 @@
 const hypercore = require('hypercore')
 const ram = require('random-access-memory')
 const hyperdiscovery = require('hyperdiscovery')
-const messages = require('hyperdb/lib/messages')
+const messages = require('hyperdrive/node_modules/hyperdb/lib/messages')
 const to2 = require('to2')
 
 const key = process.argv[2]
