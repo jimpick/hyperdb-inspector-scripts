@@ -1,3 +1,4 @@
+require('longjohn')
 const hyperdb = require('hyperdrive/node_modules/hyperdb')
 const hyperdrive = require('hyperdrive')
 const to2 = require('to2')
